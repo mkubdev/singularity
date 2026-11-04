@@ -84,7 +84,7 @@ export default function App() {
     Promise.all([
       document.fonts?.ready,
       document.fonts?.load('900 16px "Noto Serif JP"', "特"),
-      document.fonts?.load('800 16px "Archivo Variable"', "M"),
+      document.fonts?.load('800 16px "Archivo Display"', "M"),
       // The brush mask must be decoded before the entrance, or the name would show
       // unmasked for a moment.
       (() => {

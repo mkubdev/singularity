@@ -21,5 +21,21 @@ const siteUrlPlugin = (): Plugin => ({
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), siteUrlPlugin()],
-  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  resolve: { alias: { "@": path.resolve(import.meta.dirname, "./src") } },
+  build: {
+    // three.js alone is ~530 kB minified (131 kB compressed): expected, not a warning.
+    chunkSizeWarningLimit: 600,
+    rolldownOptions: {
+      output: {
+        // Libraries in their own long-cached chunks: a deploy that only changes the site
+        // re-downloads the site code, not three.js or React.
+        codeSplitting: {
+          groups: [
+            { name: "three", test: /node_modules[\\/]three[\\/]/ },
+            { name: "react", test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/ },
+          ],
+        },
+      },
+    },
+  },
 })

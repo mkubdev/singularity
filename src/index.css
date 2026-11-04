@@ -3,7 +3,6 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
-@import "@fontsource-variable/archivo/wdth.css";
 
 /* Noto Serif JP 900, subset to the kanji the site uses (創解知網漆特異点匠連絡), self-hosted.
    SIL Open Font License 1.1. To add a kanji, regenerate the subset with it. */
@@ -16,10 +15,21 @@
   unicode-range: U+5275, U+5320, U+6f06, U+70b9, U+7279, U+7570, U+77e5, U+7d61, U+7db2, U+89e3, U+9023;
 }
 
+/* Archivo, only the cut the titles use (800, 125% wide), Latin subset, self-hosted and
+   preloaded: the name is the largest thing painted at load. SIL Open Font License 1.1. */
+@font-face {
+  font-family: "Archivo Display";
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: 125%;
+  font-display: swap;
+  src: url("/fonts/archivo-800-wide-subset.woff2") format("woff2");
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: 'Archivo Variable', sans-serif;
+    --font-heading: 'Archivo Display', sans-serif;
     --font-sans: 'Geist Variable', sans-serif;
     --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
     --color-sidebar-ring: var(--sidebar-ring);
