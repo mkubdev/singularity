@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { cn } from "@/lib/utils"
 
 type Service = { title: string; text: string; kanji: string }
 
 /**
- * Pinned services stage. The section is one viewport tall per service; its content
- * sticks to the screen while the scroll inside it selects the active service.
+ * Pinned services stage. The section is 1.3 viewports tall per service on mobile and
+ * 1.8 on desktop (a trackpad flick covers a lot of ground), plus a short tail; its
+ * content sticks to the screen while the scroll inside it selects the active service.
  * The active service is shown large, the others sit on a small rail.
  *
  * Two invisible [data-scene] markers (start / end) hold the camera in the 漆 lacquer
@@ -59,8 +60,8 @@ export function ServiceIndex({ services, onActive }: { services: Service[]; onAc
     <section
       ref={sectionRef}
       aria-label="Ce que je fais"
-      className="relative"
-      style={{ height: `${services.length * 100 + 40}dvh` }}
+      className="relative h-[calc(var(--n)*130dvh+40dvh)] md:h-[calc(var(--n)*180dvh+40dvh)]"
+      style={{ "--n": services.length } as CSSProperties}
     >
       {/* Every service, always in the markup (the stage only shows the active one). */}
       <ul className="sr-only">

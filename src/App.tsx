@@ -311,13 +311,14 @@ export default function App() {
         </section>
       </main>
 
-      {/* A floor of black under the footer: the disk's bright band sits right behind it. */}
-      <footer className="bg-gradient-to-t from-black via-black/85 to-transparent px-5 pt-14 md:px-10">
-        <div className="flex items-center justify-between border-t border-white/10 py-5 font-mono text-[11px] tracking-wide text-muted-foreground">
+      {/* Mobile: a floor of black under the footer, since the disk's bright band sits right behind it.
+          Desktop: just the line itself, floating over the scene. */}
+      <footer className="bg-gradient-to-t from-black via-black/85 to-transparent px-5 pt-14 md:bg-none md:px-10 md:pt-0">
+        <div className="flex items-center justify-between border-t border-white/10 py-5 md:border-t-0 md:py-6 font-mono text-[11px] tracking-wide text-muted-foreground">
           <span>
             © {new Date().getFullYear()} {site.firstName} {site.lastName}
           </span>
-          <a href="#top" className="transition-colors hover:text-foreground">
+          <a href="#top" className="transition-colors hover:text-foreground md:text-[var(--net)] md:hover:text-[#ff3c46]">
             Retour en haut ↑
           </a>
         </div>
