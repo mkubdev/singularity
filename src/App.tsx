@@ -37,8 +37,8 @@ export default function App() {
   const readoutRef = useRef<HTMLSpanElement>(null)
   const engineRef = useRef<Singularity | null>(null)
 
-  const onProcess = useCallback((p: number, on: boolean, fade: number) => {
-    engineRef.current?.setRibbon(on && fade > 0, ribbonHead(p), ribbonPhase(p), fade)
+  const onProcess = useCallback((p: number, on: boolean, fade: number, vertical: boolean) => {
+    engineRef.current?.setRibbon(on && fade > 0, ribbonHead(p), ribbonPhase(p), fade, vertical)
   }, [])
   const [perf] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("perf"))
   const onReach = useCallback((i: number) => engineRef.current?.boostNode(i), [])

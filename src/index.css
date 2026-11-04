@@ -448,7 +448,17 @@ footer {
   mask-repeat: no-repeat;
 }
 .ink-sharp {
-  animation: ink-sweep 1.5s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--w) * 360ms + 650ms) both;
+  /* The solid pass keeps a worn print once set: dry-brush streaks and chipped ink,
+     intersected with the brush sweep. The tile scales with the type. */
+  -webkit-mask-image: var(--brush), url("/ink-wear.png");
+  mask-image: var(--brush), url("/ink-wear.png");
+  -webkit-mask-size: 320% 100%, 2.6em 2.6em;
+  mask-size: 320% 100%, 2.6em 2.6em;
+  -webkit-mask-repeat: no-repeat, repeat;
+  mask-repeat: no-repeat, repeat;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  animation: ink-sweep-worn 1.5s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--w) * 360ms + 650ms) both;
 }
 /* First pass: screentone (halftone dots), slightly off-register like a print. */
 .ink-tone {
@@ -506,6 +516,10 @@ footer {
   from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
   to { -webkit-mask-position: 0% 0; mask-position: 0% 0; }
 }
+@keyframes ink-sweep-worn {
+  from { -webkit-mask-position: 100% 0, 0 0; mask-position: 100% 0, 0 0; }
+  to { -webkit-mask-position: 0% 0, 0 0; mask-position: 0% 0, 0 0; }
+}
 @keyframes ink-fade {
   to { opacity: 0; visibility: hidden; }
 }
@@ -516,7 +530,15 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .ink-tone { display: none; }
   .manga-hatch, .manga-code { animation: none; }
-  .ink-sharp { animation: none; -webkit-mask-image: none; mask-image: none; }
+  .ink-sharp {
+    animation: none;
+    -webkit-mask-image: url("/ink-wear.png");
+    mask-image: url("/ink-wear.png");
+    -webkit-mask-size: 2.6em 2.6em;
+    mask-size: 2.6em 2.6em;
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
+  }
 }
 
 /* ---- Process: "De l'idée à la mise en ligne" (signal across the glass) ------ */
@@ -601,12 +623,22 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .live-badge::before { animation: none; }
 }
-@media (max-width: 767px) {
-  .proc-node { width: 30vw; }
-  .proc-index { white-space: nowrap; font-size: 0.62rem; }
-  .proc-node .proc-detail { display: none; }
-  .proc-node-name { font-size: 0.85rem; }
+/* Vertical run (mobile): a timeline column right of the signal. The left edge clears
+   the wave's widest swing (center + amplitude, see RIBBON_V in gl/ribbon.ts). */
+.proc-v .proc-node {
+  left: calc((0.14 + 0.075) * 100% + 1.25rem);
+  right: 1.25rem;
+  top: var(--ny);
+  width: auto;
+  text-align: left;
+  align-items: flex-start;
+  gap: 0.25rem;
+  transform: translate(0.6rem, -1.1rem);
 }
+.proc-v .proc-node.lit { transform: translate(0, -1.1rem); }
+.proc-v .proc-node-name { font-size: 1.15rem; transform-origin: 0 50%; }
+.proc-v .proc-detail { max-width: 30ch; }
+.proc-v .live-badge { margin-top: 0.5rem; }
 
 /* Contact buttons: CSS glass, so they scroll exactly with the text (a WebGL pane is
    always one frame behind the page). Frosted body, light rim on top, soft depth. */
@@ -684,10 +716,4 @@ html:not(.is-ready) .hero *::after {
     right: 50%;
     font-size: 50vw;
   }
-
-  /* Process: edge labels align inward instead of spilling off screen. */
-  .proc-node:first-child { transform: translateX(-28%); }
-  .proc-node.last { transform: translateX(-78%); }
-  .proc-node.above.lit:first-child { transform: translate(-28%, -0.35rem); }
-  .proc-node.below.lit.last { transform: translate(-78%, 0.35rem); }
 }

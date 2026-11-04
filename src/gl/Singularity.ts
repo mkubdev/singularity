@@ -4,7 +4,7 @@ import sceneFrag from "./shaders/singularity.frag?raw"
 import postFrag from "./shaders/post.frag?raw"
 import particlesVert from "./shaders/particles.vert?raw"
 import particlesFrag from "./shaders/particles.frag?raw"
-import { RIBBON_NODES, ribbonY } from "./ribbon"
+import { RIBBON_NODES, RIBBON_V, ribbonY } from "./ribbon"
 
 /** One camera / effect state, anchored to a section of the page. */
 export type Keyframe = {
@@ -141,6 +141,8 @@ export class Singularity {
         uRibbonP: { value: 0 },
         uRibbonPhase: { value: 0 },
         uRibbonFade: { value: 1 },
+        uRibbonVert: { value: 0 },
+        uRibbonV: { value: new THREE.Vector3(RIBBON_V.start, RIBBON_V.span, RIBBON_V.center) },
         uNodeAge: { value: [99, 99, 99, 99] },
         uSurge: { value: 0 },
         uOrbPhase: { value: 0 },
@@ -300,10 +302,14 @@ export class Singularity {
     this.postMat.uniforms.uCut.value = this.cutT
   }
 
-  /** Light signal across the fluted glass: `head` is its tip (0..1 of the width), `phase` rolls the wave. */
-  setRibbon(on: boolean, head: number, phase: number, fade = 1) {
+  /**
+   * Light signal across the glass: `head` is its tip (0..1 of the run), `phase` rolls
+   * the wave. `vertical` runs it top to bottom (mobile).
+   */
+  setRibbon(on: boolean, head: number, phase: number, fade = 1, vertical = false) {
     const pu = this.postMat.uniforms
     pu.uRibbonOn.value = on ? 1 : 0
+    pu.uRibbonVert.value = vertical ? 1 : 0
     pu.uRibbonFade.value = fade
     pu.uRibbonP.value = head
     pu.uRibbonPhase.value = phase

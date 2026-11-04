@@ -20,6 +20,8 @@ uniform float uRibbonOn; // process ribbon visible
 uniform float uRibbonP;  // ribbon head, 0..1 of the screen width
 uniform float uRibbonPhase;
 uniform float uRibbonFade; // 1 -> 0 as the section scrolls away
+uniform float uRibbonVert; // 1: the signal runs top to bottom (portrait / mobile)
+uniform vec3 uRibbonV;     // vertical layout: start, span (fractions of the height), center x
 uniform float uNodeAge[4]; // seconds since the signal reached each node
 uniform float uSurge;      // 1 -> 0 energy surge after a node is reached
 uniform float uOrbPhase;   // travel phase of the energy orbs (speeds up in a surge)
@@ -96,26 +98,34 @@ float ribbonSlope(float x) {
 // rgb: light to add; a: soft shadow laid underneath, so the signal reads on the dark
 // sky and on the bright disk alike. Head, node and orb positions come from the CPU.
 vec4 ribbon(vec2 uv) {
+  // Ribbon space: q.x runs along the signal, q.y across it (0.5 = rest line).
+  // Vertical mode maps it top to bottom, over a band of the height, around x = center.
+  vec2 q = uv;
+  vec2 toPx = uRes / uDpr;
+  if (uRibbonVert > 0.5) {
+    q = vec2(((1.0 - uv.y) - uRibbonV.x) / uRibbonV.y, uv.x - uRibbonV.z + 0.5);
+    toPx = vec2(uRes.y * uRibbonV.y, uRes.x) / uDpr;
+  }
+  float px = toPx.y;
+
   // Only a band around the wave can be touched (wave + glow + shockwaves).
-  float px = uRes.y / uDpr;
-  if (abs(uv.y - 0.5) * px - 0.075 * px > 140.0) return vec4(0.0);
+  if (abs(q.y - 0.5) * px - 0.075 * px > 140.0) return vec4(0.0);
 
   float head = uRibbonP;
   float vis = min(1.0, uGlass * 2.5) * uRibbonFade;
-  vec2 toPx = uRes / uDpr;
 
   // Distance to the curve, corrected by its slope so the line keeps a constant width.
-  float slope = ribbonSlope(uv.x) * (uRes.y / uRes.x);
-  float dy = abs(uv.y - ribbonY(uv.x)) * px / sqrt(1.0 + slope * slope);
+  float slope = ribbonSlope(q.x) * (toPx.y / toPx.x);
+  float dy = abs(q.y - ribbonY(q.x)) * px / sqrt(1.0 + slope * slope);
 
   vec3 light = vec3(0.0);
   float shadow = 0.0;
 
   // Past the head, distance is measured to the head point: round cap, no seam.
-  vec2 hp = vec2(uv.x - head, uv.y - uHeadY) * toPx;
+  vec2 hp = vec2(q.x - head, q.y - uHeadY) * toPx;
   float dh = length(hp);
-  float dl = uv.x < head ? dy : dh;
-  float xs = min(uv.x, head);
+  float dl = q.x < head ? dy : dh;
+  float xs = min(q.x, head);
   {
     float tail = smoothstep(0.0, 0.05, xs) * mix(0.3, 1.0, smoothstep(head - 0.35, head, xs));
     float core = exp(-pow(dl / 0.8, 2.0));
@@ -135,7 +145,7 @@ vec4 ribbon(vec2 uv) {
   for (int k = 0; k < 5; k++) {
     vec3 o = uOrbs[k];
     if (o.z <= 0.0) continue;
-    float d = length(vec2(uv.x - o.x, uv.y - o.y) * toPx);
+    float d = length(vec2(q.x - o.x, q.y - o.y) * toPx);
     light += vec3(0.95, 0.97, 1.0) * (exp(-pow(d / 2.6, 2.0)) * 1.3 + exp(-d / 11.0) * 0.22) * o.z * (1.0 + 0.9 * uSurge);
     shadow = max(shadow, exp(-d / 14.0) * 0.45 * o.z);
   }
@@ -151,7 +161,7 @@ vec4 ribbon(vec2 uv) {
 
   for (int i = 0; i < 4; i++) {
     float lit = step(NODES[i], head);
-    vec2 np = vec2(uv.x - NODES[i], uv.y - uNodeY[i]) * toPx;
+    vec2 np = vec2(q.x - NODES[i], q.y - uNodeY[i]) * toPx;
     float dn = length(np);
     vec3 nc = (i == 3) ? mix(vec3(1.0), vec3(1.0, 0.0, 0.12), lit) : vec3(1.0);
     float age = uNodeAge[i];
@@ -170,7 +180,7 @@ vec4 ribbon(vec2 uv) {
       light += nc * exp(-dn / (5.0 + a * 10.0)) * 2.2 * pow(1.0 - a, 3.0);
       // Energy rushes back along the travelled thread.
       float xw = NODES[i] - a * 0.9;
-      float back = exp(-pow((uv.x - xw) * toPx.x / 46.0, 2.0)) * step(uv.x, head);
+      float back = exp(-pow((q.x - xw) * toPx.x / 46.0, 2.0)) * step(q.x, head);
       light += nc * (exp(-pow(dl / 1.0, 2.0)) * 2.0 + exp(-dl / 10.0) * 0.35) * back * fade;
     }
     if (dn < 40.0) {
