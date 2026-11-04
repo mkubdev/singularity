@@ -1,0 +1,632 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "@fontsource-variable/archivo/wdth.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: 'Archivo Variable', sans-serif;
+    --font-sans: 'Geist Variable', sans-serif;
+    --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+    --background: oklch(0 0 0);
+    --foreground: oklch(0.95 0.003 250);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.16 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.95 0.003 250);
+    --primary-foreground: oklch(0 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.68 0.005 250);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.85 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    }
+}
+
+@layer base {
+  html {
+    background: #000;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: transparent;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: oklch(0.95 0 0);
+    color: #000;
+  }
+  :focus-visible {
+    outline: 1px solid var(--ring);
+    outline-offset: 4px;
+  }
+}
+
+.display {
+  font-family: var(--font-heading);
+  font-stretch: 125%;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.hero-name {
+  font-size: clamp(3.4rem, 12.5vw, 15rem);
+  line-height: 0.8;
+  mix-blend-mode: difference;
+  color: #fff;
+  white-space: pre;
+}
+
+.link-line {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.4s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+.link-line:hover,
+.link-line:focus-visible {
+  background-size: 100% 1px;
+}
+
+.fallback {
+  background: radial-gradient(circle at 50% 50%, #000 0 14vmin, #c9ccd2 14.4vmin, #222 18vmin, #000 46vmin);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-line { transition: none; }
+}
+
+/* Keeps body text legible over the live scene without an opaque panel. */
+.text-halo {
+  text-shadow: 0 0 18px rgb(0 0 0 / 0.95), 0 1px 3px rgb(0 0 0 / 0.9);
+}
+
+/* Without WebGL the shader can't draw the glass: fall back to CSS frosting. */
+.no-webgl .pane {
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  backdrop-filter: blur(24px) saturate(1.4);
+}
+
+
+/* A soft pool of shadow behind text set over bright scenes: no box, no edge. */
+.scrim::before {
+  content: "";
+  position: absolute;
+  inset: -30% -25%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.62), rgb(0 0 0 / 0.35) 55%, transparent);
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+/* Content dips out with the scene during a jump between sections. */
+main,
+footer {
+  transition: opacity 0.38s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+.is-jumping main,
+.is-jumping footer {
+  opacity: 0;
+  transition-duration: 0.2s;
+}
+@media (prefers-reduced-motion: reduce) {
+  main, footer { transition: none; }
+}
+
+/* Accent red used by the rail and the description rule. */
+:root { --net: #d7001f; }
+.net-rule {
+  border-left: 2px solid var(--net);
+  padding-left: 1rem;
+  margin-top: 1rem;
+  padding-top: 0;
+}
+@media (min-width: 768px) {
+  .net-rule { margin-top: 1.5rem; }
+}
+
+/* Rail: the active entry is marked by a short bar in its channel color. */
+.rail-item {
+  position: relative;
+  padding-left: 1.25rem;
+}
+.rail-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0.6rem;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.35;
+  transition: width 0.3s, background-color 0.3s, opacity 0.3s;
+}
+.rail-item[aria-current="true"]::before {
+  width: 0.9rem;
+  background: var(--net);
+  opacity: 1;
+}
+@media (min-width: 768px) {
+  .rail-item { padding-left: 0; padding-right: 1.4rem; }
+  .rail-item::before { left: auto; right: 0; }
+}
+
+
+
+/* ---- 漆 lacquer theme ------------------------------------------------------ */
+.kanji {
+  position: absolute;
+  top: 50%;
+  right: clamp(1rem, 16vw, 18rem);
+  transform: translateY(-50%);
+  font-family: "Noto Serif JP", serif;
+  font-weight: 900;
+  font-size: min(64dvh, 46vw);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(215 0 31 / 0.75);
+  pointer-events: none;
+  user-select: none;
+  animation: kanji-in 0.7s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+}
+@keyframes kanji-in {
+  0% { opacity: 0; transform: translateY(-50%) scale(1.06); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(-50%) scale(1); filter: blur(0); }
+}
+.kanji {
+  color: rgb(215 0 31 / 0.16);
+  -webkit-text-stroke: 1px rgb(255 60 70 / 0.55);
+}
+
+/* Title cut by a blade: the two halves arrive from opposite sides and meet. */
+.cut-in {
+  position: relative;
+  color: transparent;
+  animation: cut-main 0.6s steps(1, end) both;
+}
+.cut-in::before,
+.cut-in::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #fff;
+  pointer-events: none;
+}
+.cut-in::before {
+  clip-path: polygon(0 0, 100% 0, 100% 46%, 0 54%);
+  animation: cut-top 0.6s cubic-bezier(0.7, 0, 0.15, 1) both;
+}
+.cut-in::after {
+  clip-path: polygon(0 54%, 100% 46%, 100% 100%, 0 100%);
+  animation: cut-bottom 0.6s cubic-bezier(0.7, 0, 0.15, 1) both;
+}
+@keyframes cut-main {
+  0%, 99% { color: transparent; }
+  100% { color: #fff; }
+}
+@keyframes cut-top {
+  0% { transform: translateX(-9%); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes cut-bottom {
+  0% { transform: translateX(9%); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+/* Combo: each service's title is cut along its own direction (same as the shader). */
+.cut-in[data-cut="1"]::before { clip-path: polygon(0 0, 100% 0, 100% 15%, 0 85%); animation-name: cut-a1; }
+.cut-in[data-cut="1"]::after { clip-path: polygon(0 85%, 100% 15%, 100% 100%, 0 100%); animation-name: cut-b1; }
+.cut-in[data-cut="2"]::before { clip-path: polygon(0 0, 52% 0, 48% 100%, 0 100%); animation-name: cut-a2; }
+.cut-in[data-cut="2"]::after { clip-path: polygon(52% 0, 100% 0, 100% 100%, 48% 100%); animation-name: cut-b2; }
+.cut-in[data-cut="3"]::before { clip-path: polygon(0 0, 100% 0, 100% 88%, 0 12%); animation-name: cut-a3; }
+.cut-in[data-cut="3"]::after { clip-path: polygon(0 12%, 100% 88%, 100% 100%, 0 100%); animation-name: cut-b3; }
+@keyframes cut-a1 { 0% { transform: translate(-7%, 0.18em); opacity: 0; } 20% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes cut-b1 { 0% { transform: translate(7%, -0.18em); opacity: 0; } 20% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes cut-a2 { 0% { transform: translateY(-0.5em); opacity: 0; } 20% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes cut-b2 { 0% { transform: translateY(0.5em); opacity: 0; } 20% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes cut-a3 { 0% { transform: translate(-10%, -0.24em); opacity: 0; } 20% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes cut-b3 { 0% { transform: translate(10%, 0.24em); opacity: 0; } 20% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+
+.net-rule.is-bind {
+  border-left-color: #d7001f;
+}
+
+/* 漆: red hanko seal next to the description. */
+.hanko {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid #d7001f;
+  border-radius: 6px;
+  color: #d7001f;
+  font-family: "Noto Serif JP", serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  line-height: 1;
+  transform: rotate(-4deg);
+  box-shadow: inset 0 0 0 2px rgb(215 0 31 / 0.25);
+  animation: hanko-in 0.5s cubic-bezier(0.3, 1.6, 0.4, 1) 0.25s both;
+}
+@keyframes hanko-in {
+  0% { opacity: 0; transform: rotate(-4deg) scale(1.6); }
+  100% { opacity: 1; transform: rotate(-4deg) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kanji, .cut-in, .cut-in::before, .cut-in::after, .hanko { animation: none; }
+  .cut-in { color: #fff; }
+  .cut-in::before, .cut-in::after { display: none; }
+}
+
+/* ---- Hero lacquer accents ---------------------------------------------------- */
+
+.tategaki {
+  position: absolute;
+  top: 50%;
+  right: 1.25rem;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-family: "Noto Serif JP", serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  letter-spacing: 0.6em;
+  color: #d7001f;
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  .tategaki { right: 2.5rem; font-size: 1.05rem; }
+}
+
+.hanko-sm {
+  width: 2.1rem;
+  height: 2.1rem;
+  font-size: 1.1rem;
+  border-width: 1.5px;
+  border-radius: 4px;
+  animation-delay: 2.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-word { animation: none !important; }
+}
+
+/* ---- Hero name entrance (black & white) ---------------------------------- */
+.intro-word { position: relative; }
+
+/* Manga print: a sumi brush stroke lays each word down as a screentone, a second pass
+   fills the letters solid. */
+.intro-manga {
+  --brush: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20320%20100%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%20y1%3D%220%22%20y2%3D%220%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff%22/%3E%3Cstop%20offset%3D%220.44%22%20stop-color%3D%22%23fff%22/%3E%3Cstop%20offset%3D%220.5%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220.55%22/%3E%3Cstop%20offset%3D%220.56%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22/%3E%3C/linearGradient%3E%3Cfilter%20id%3D%22f%22%20x%3D%22-5%25%22%20y%3D%22-5%25%22%20width%3D%22110%25%22%20height%3D%22110%25%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.035%200.32%22%20numOctaves%3D%223%22%20seed%3D%224%22/%3E%3CfeDisplacementMap%20in%3D%22SourceGraphic%22%20scale%3D%2222%22%20xChannelSelector%3D%22R%22%20yChannelSelector%3D%22G%22/%3E%3C/filter%3E%3C/defs%3E%3Crect%20x%3D%22-20%22%20y%3D%22-10%22%20width%3D%22360%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22%20filter%3D%22url%28%23f%29%22/%3E%3C/svg%3E");
+}
+.intro-manga .intro-word {
+  animation: ink-settle 2.6s cubic-bezier(0.2, 0.7, 0.1, 1) calc(var(--w) * 360ms + 250ms) both;
+}
+.ink-sharp,
+.ink-tone {
+  display: block;
+  /* Own compositor layers: the brush mask repaints only these, and scrolling moves
+     them without re-rasterizing the giant glyphs. */
+  will-change: transform;
+  -webkit-mask-image: var(--brush);
+  mask-image: var(--brush);
+  -webkit-mask-size: 320% 100%;
+  mask-size: 320% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.ink-sharp {
+  animation: ink-sweep 1.5s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--w) * 360ms + 650ms) both;
+}
+/* First pass: screentone (halftone dots), slightly off-register like a print. */
+.ink-tone {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  background-image: radial-gradient(circle at 50% 50%, #fff 0 32%, transparent 36%);
+  background-size: 7px 7px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transform: translate(0.012em, -0.008em);
+  animation:
+    ink-sweep 1.4s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--w) * 360ms + 250ms) both,
+    ink-fade 0.5s steps(3, end) calc(var(--w) * 360ms + 1.35s) forwards;
+}
+/* Graphic stamps that land once the name is set. */
+.manga-hatch,
+.manga-code {
+  position: absolute;
+  display: block;
+  opacity: 0.55;
+  animation: stamp-in 0.55s steps(4, end) both;
+}
+.manga-hatch {
+  left: 0.02em;
+  top: calc(100% + 0.08em);
+  width: 1.6em;
+  height: 0.05em;
+  background: repeating-linear-gradient(-58deg, #fff 0 0.011em, transparent 0.011em 0.05em);
+  animation-delay: 2.15s;
+}
+.manga-code {
+  right: calc(100% + 0.16em);
+  bottom: 0.1em;
+  width: 0.75em;
+  height: 0.14em;
+  background: repeating-linear-gradient(
+    90deg,
+    #fff 0 0.012em, transparent 0.012em 0.03em,
+    #fff 0.03em 0.036em, transparent 0.036em 0.05em,
+    #fff 0.05em 0.074em, transparent 0.074em 0.086em,
+    #fff 0.086em 0.092em, transparent 0.092em 0.112em
+  );
+  animation-delay: 2.4s;
+}
+@keyframes stamp-in {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes ink-sweep {
+  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+  to { -webkit-mask-position: 0% 0; mask-position: 0% 0; }
+}
+@keyframes ink-fade {
+  to { opacity: 0; visibility: hidden; }
+}
+@keyframes ink-settle {
+  from { transform: scale(1.025); }
+  to { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ink-tone { display: none; }
+  .manga-hatch, .manga-code { animation: none; }
+  .ink-sharp { animation: none; -webkit-mask-image: none; mask-image: none; }
+}
+
+/* ---- Process: "De l'idée à la mise en ligne" (signal across the glass) ------ */
+.proc-index {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: rgb(255 255 255 / 0.5);
+}
+.proc-detail {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.88);
+  text-shadow: 0 0 18px rgb(0 0 0 / 0.95), 0 1px 3px rgb(0 0 0 / 0.9);
+}
+/* Labels sit on the shader's nodes, which ride the wave (--ny = node's top in %). */
+.proc-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: min(22vw, 15rem);
+  transform: translateX(-50%);
+  text-align: center;
+  align-items: center;
+  opacity: 0.3;
+  transition: opacity 0.6s, transform 0.6s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+.proc-node.above { bottom: calc(100% - var(--ny) + 1.6rem); }
+.proc-node.below { top: calc(var(--ny) + 1.6rem); }
+.proc-node.lit { opacity: 1; }
+.proc-node.above.lit { transform: translate(-50%, -0.35rem); }
+.proc-node.below.lit { transform: translate(-50%, 0.35rem); }
+.proc-node-name {
+  font-size: clamp(0.95rem, 1.8vw, 1.8rem);
+  line-height: 1;
+  text-shadow: 0 0 24px rgb(0 0 0 / 0.9);
+}
+/* Arrival: the last step takes the stage, with a live badge. */
+.proc-node.last.lit .proc-node-name {
+  transform: scale(1.12);
+}
+.proc-node-name { transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.1, 1); }
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.75rem 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: #d7001f;
+  color: #fff;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 1px rgb(255 80 95 / 0.6), 0 6px 30px rgb(215 0 31 / 0.55), 0 0 60px rgb(215 0 31 / 0.35);
+  opacity: 0;
+  transform: translateY(6px) scale(0.92);
+  transition: opacity 0.5s 0.25s, transform 0.6s cubic-bezier(0.3, 1.6, 0.4, 1) 0.25s;
+}
+.live-badge::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 0 rgb(255 255 255 / 0.7);
+  animation: live-pulse 1.6s ease-out infinite;
+}
+.proc-node.last.lit .live-badge {
+  opacity: 1;
+  transform: none;
+}
+@keyframes live-pulse {
+  0% { box-shadow: 0 0 0 0 rgb(255 255 255 / 0.75); }
+  70% { box-shadow: 0 0 0 0.5rem rgb(255 255 255 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(255 255 255 / 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-badge::before { animation: none; }
+}
+@media (max-width: 767px) {
+  .proc-node { width: 30vw; }
+  .proc-index { white-space: nowrap; font-size: 0.62rem; }
+  .proc-node .proc-detail { display: none; }
+  .proc-node-name { font-size: 0.85rem; }
+}
+
+/* Contact buttons: CSS glass, so they scroll exactly with the text (a WebGL pane is
+   always one frame behind the page). Frosted body, light rim on top, soft depth. */
+.glass-btn {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.03));
+  -webkit-backdrop-filter: blur(14px) saturate(1.6);
+  backdrop-filter: blur(14px) saturate(1.6);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    inset 0 -1px 0 rgb(255 255 255 / 0.08),
+    inset 0 0 0 1px rgb(255 255 255 / 0.14),
+    0 10px 30px rgb(0 0 0 / 0.45);
+  transition: background 0.3s, box-shadow 0.3s, transform 0.3s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+.glass-btn::after {
+  /* Specular sheen across the top half. */
+  content: "";
+  position: absolute;
+  inset: 1px 1px 50% 1px;
+  border-radius: 999px 999px 40% 40% / 999px 999px 100% 100%;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.18), transparent);
+  pointer-events: none;
+  z-index: -1;
+}
+.glass-btn:hover {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.05));
+  transform: translateY(-1px);
+}
+.glass-btn-strong {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.08));
+}
+.glass-btn-strong:hover {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.12));
+}
+@media (prefers-reduced-motion: reduce) {
+  .glass-btn { transition: none; }
+}
+
+/* On small screens the contact signature sits below the buttons, clear of the email. */
+@media (max-width: 767px) {
+  .contact-sign { top: auto; bottom: 24%; transform: none; }
+}
