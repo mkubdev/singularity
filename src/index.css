@@ -278,10 +278,11 @@ footer {
 
 /* ---- 漆 lacquer theme ------------------------------------------------------ */
 .kanji {
+  --kanji-at: translateY(-50%);
   position: absolute;
   top: 50%;
   right: clamp(1rem, 16vw, 18rem);
-  transform: translateY(-50%);
+  transform: var(--kanji-at);
   font-family: "Noto Serif JP", serif;
   font-weight: 900;
   font-size: min(64dvh, 46vw);
@@ -293,8 +294,8 @@ footer {
   animation: kanji-in 0.7s cubic-bezier(0.2, 0.7, 0.1, 1) both;
 }
 @keyframes kanji-in {
-  0% { opacity: 0; transform: translateY(-50%) scale(1.06); filter: blur(6px); }
-  100% { opacity: 1; transform: translateY(-50%) scale(1); filter: blur(0); }
+  0% { opacity: 0; transform: var(--kanji-at) scale(1.06); filter: blur(6px); }
+  100% { opacity: 1; transform: var(--kanji-at) scale(1); filter: blur(0); }
 }
 .kanji {
   color: rgb(215 0 31 / 0.16);
@@ -432,6 +433,10 @@ footer {
 .ink-sharp,
 .ink-tone {
   display: block;
+  /* The mask covers the box only: give accents (Ê, É…) room above and below the very
+     tight line-height, without moving the layout. */
+  padding-block: 0.16em;
+  margin-block: -0.16em;
   /* Own compositor layers: the brush mask repaints only these, and scrolling moves
      them without re-rasterizing the giant glyphs. */
   will-change: transform;
@@ -457,7 +462,8 @@ footer {
   transform: translate(0.012em, -0.008em);
   animation:
     ink-sweep 1.4s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--w) * 360ms + 250ms) both,
-    ink-fade 0.6s cubic-bezier(0.4, 0, 0.2, 1) calc(var(--w) * 360ms + 1.3s) forwards;
+    /* Stepped on purpose: the screentone drops out like a page turn in a manga. */
+    ink-fade 0.5s steps(3, end) calc(var(--w) * 360ms + 1.35s) forwards;
 }
 /* Graphic stamps that land once the name is set. */
 .manga-hatch,
@@ -663,4 +669,25 @@ html:not(.is-ready) .hero *::after {
 }
 .is-firefox .glass-btn-strong {
   background: linear-gradient(180deg, rgb(255 255 255 / 0.26), rgb(255 255 255 / 0.1)), rgb(0 0 0 / 0.3);
+}
+
+/* ---- Mobile polish ------------------------------------------------------------ */
+@media (max-width: 767px) {
+  /* The name spans the full width, as on desktop. */
+  .hero-name { font-size: 17.5vw; }
+
+  /* Services: the kanji moves into the empty lower half, clear of the text. */
+  .kanji {
+    --kanji-at: translateX(50%);
+    top: auto;
+    bottom: 1dvh;
+    right: 50%;
+    font-size: 50vw;
+  }
+
+  /* Process: edge labels align inward instead of spilling off screen. */
+  .proc-node:first-child { transform: translateX(-28%); }
+  .proc-node.last { transform: translateX(-78%); }
+  .proc-node.above.lit:first-child { transform: translate(-28%, -0.35rem); }
+  .proc-node.below.lit.last { transform: translate(-78%, 0.35rem); }
 }

@@ -40,7 +40,7 @@ export default function App() {
   const onProcess = useCallback((p: number, on: boolean, fade: number) => {
     engineRef.current?.setRibbon(on && fade > 0, ribbonHead(p), ribbonPhase(p), fade)
   }, [])
-  const [perf] = useState(() => new URLSearchParams(window.location.search).has("perf"))
+  const [perf] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("perf"))
   const onReach = useCallback((i: number) => engineRef.current?.boostNode(i), [])
   // Each change of active service cuts across the lacquer.
   const onService = useCallback((_: unknown, i: number) => engineRef.current?.cut(i), [])
@@ -235,11 +235,11 @@ export default function App() {
         </section>
 
         <section data-scene className="flex min-h-[110dvh] items-center px-5 md:px-10">
-          <div className="md:ml-[6vw]">
-            <p className="display max-w-[14ch] text-[clamp(2.2rem,5.4vw,5.5rem)] text-balance">
+          <div className="scrim relative md:ml-[6vw]">
+            <p className="display text-halo max-w-[14ch] text-[clamp(2.2rem,5.4vw,5.5rem)] text-balance">
               {site.manifesto.lead}
             </p>
-            <p className="mt-8 max-w-[40ch] text-base leading-relaxed font-medium text-foreground/75 md:text-lg">
+            <p className="text-halo mt-8 max-w-[40ch] text-base leading-relaxed font-medium text-foreground/90 md:text-lg">
               {site.manifesto.body}
             </p>
           </div>
@@ -293,8 +293,11 @@ export default function App() {
               Copier l'adresse
             </Button>
           </div>
+          <p className="mt-10 text-sm text-muted-foreground">
+            Basé à {site.location.city}, {site.location.region}
+          </p>
           {site.links.length > 0 && (
-            <ul className="mt-10 flex gap-6 text-sm">
+            <ul className="mt-4 flex gap-6 text-sm">
               {site.links.map((l) => (
                 <li key={l.href}>
                   <a href={l.href} className="link-line" target="_blank" rel="noreferrer">
@@ -307,13 +310,16 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="mx-5 flex items-center justify-between border-t border-white/10 py-5 font-mono text-[11px] tracking-wide text-muted-foreground md:mx-10">
-        <span>
-          © {new Date().getFullYear()} {site.firstName} {site.lastName}
-        </span>
-        <a href="#top" className="transition-colors hover:text-foreground">
-          Retour en haut ↑
-        </a>
+      {/* A floor of black under the footer: the disk's bright band sits right behind it. */}
+      <footer className="bg-gradient-to-t from-black via-black/85 to-transparent px-5 pt-14 md:px-10">
+        <div className="flex items-center justify-between border-t border-white/10 py-5 font-mono text-[11px] tracking-wide text-muted-foreground">
+          <span>
+            © {new Date().getFullYear()} {site.firstName} {site.lastName}
+          </span>
+          <a href="#top" className="transition-colors hover:text-foreground">
+            Retour en haut ↑
+          </a>
+        </div>
       </footer>
 
       {perf && <PerfHud engineRef={engineRef} />}

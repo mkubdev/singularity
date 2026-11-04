@@ -7,7 +7,14 @@ export const site = {
   role: "Ingénieur logiciel",
   intro: "Je conçois et développe des sites, des applications et des outils sur mesure.",
   email: "mkubdev@proton.me",
-  links: [] as { label: string; href: string }[],
+  links: [{ label: "LinkedIn", href: "https://www.linkedin.com/in/maximekbk/" }] as { label: string; href: string }[],
+
+  location: { city: "Lyon", region: "Auvergne-Rhône-Alpes", country: "FR" },
+
+  // Factual self-contained presentation: read by search engines and AI assistants
+  // (JSON-LD and /llms.txt). Keep it accurate; it is what they will quote.
+  about:
+    "Maxime Kubik est ingénieur logiciel, basé à Lyon, en Auvergne-Rhône-Alpes. Depuis dix ans, il conçoit et développe des logiciels de bout en bout : applications web et mobiles sur mesure (espaces clients, plateformes métier, SaaS), solutions d'automatisation et d'intégration entre outils, projets d'intelligence artificielle (assistants, agents et automatisations branchés sur les données et les outils d'une entreprise) et sites web rapides, accessibles et bien référencés. Il accompagne chaque projet de l'idée à la mise en ligne, puis dans la durée : conception, développement, déploiement et évolutions, avec un seul interlocuteur pour toute la chaîne technique. Il choisit les technologies après avoir compris le besoin, sans dogme, pour livrer des produits rapides, lisibles et durables. Il travaille avec des entreprises de la région lyonnaise et de toute la France. Pour un projet, on peut le contacter par e-mail ; il répond sous 48 heures.",
 
   manifesto: {
     lead: "Dix ans à concevoir des logiciels de bout en bout.",

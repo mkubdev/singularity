@@ -5,3 +5,4 @@ dist
 *.local
 .claude/settings.local.json
 *.tsbuildinfo
+dist-ssr

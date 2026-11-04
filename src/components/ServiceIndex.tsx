@@ -62,6 +62,15 @@ export function ServiceIndex({ services, onActive }: { services: Service[]; onAc
       className="relative"
       style={{ height: `${services.length * 100 + 40}dvh` }}
     >
+      {/* Every service, always in the markup (the stage only shows the active one). */}
+      <ul className="sr-only">
+        {services.map((x) => (
+          <li key={x.title}>
+            <h3>{x.title}</h3>
+            <p>{x.text}</p>
+          </li>
+        ))}
+      </ul>
       <div data-scene aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-dvh" />
       <div data-scene aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-dvh" />
 
