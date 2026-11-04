@@ -418,7 +418,11 @@ footer {
 }
 
 /* ---- Hero name entrance (black & white) ---------------------------------- */
-.intro-word { position: relative; }
+.intro-word {
+  position: relative;
+  /* Keep the ink layers' negative margins inside the word (no margin collapse). */
+  display: flow-root;
+}
 
 /* Manga print: a sumi brush stroke lays each word down as a screentone, a second pass
    fills the letters solid. */
@@ -460,7 +464,8 @@ footer {
   mask-composite: intersect;
   animation: ink-sweep-worn 1.5s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--w) * 360ms + 650ms) both;
 }
-/* First pass: screentone (halftone dots), slightly off-register like a print. */
+/* First pass: screentone (halftone dots), off-register like a print: it sits a little
+   above the solid letters, so the second pass seems to drop into place. */
 .ink-tone {
   position: absolute;
   inset: 0;
@@ -469,7 +474,7 @@ footer {
   background-size: 7px 7px;
   -webkit-background-clip: text;
   background-clip: text;
-  transform: translate(0.012em, -0.008em);
+  transform: translate(0.012em, -0.16em);
   animation:
     ink-sweep 1.4s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--w) * 360ms + 250ms) both,
     /* Stepped on purpose: the screentone drops out like a page turn in a manga. */
