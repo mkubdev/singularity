@@ -60,11 +60,44 @@ export default function App() {
       )
     } catch {
       setWebgl(false)
-      document.documentElement.classList.add("no-webgl")
+      document.documentElement.classList.add("no-webgl", "is-ready")
       return
     }
 
     if (import.meta.env.DEV) (window as unknown as { __engine: Singularity }).__engine = engine
+
+    // The name entrance waits for a calm page: the scene has rendered its first frames
+    // (shader compile + uploads done) and every font is in, the JP subset included.
+    // Before that, the first frames are the heaviest of the visit and made it stutter.
+    const html = document.documentElement
+    window.scrollTo(0, 0)
+    let sceneReady = false
+    let fontsReady = false
+    const markReady = () => {
+      if (sceneReady && fontsReady) html.classList.add("is-ready")
+    }
+    engine.onReady = () => {
+      sceneReady = true
+      markReady()
+    }
+    Promise.all([
+      document.fonts?.ready,
+      document.fonts?.load('900 16px "Noto Serif JP"', "特"),
+      document.fonts?.load('800 16px "Archivo Variable"', "M"),
+      // The brush mask must be decoded before the entrance, or the name would show
+      // unmasked for a moment.
+      (() => {
+        const img = new Image()
+        img.src = "/brush-mask.png"
+        return img.decode()
+      })(),
+    ])
+      .catch(() => {})
+      .finally(() => {
+        fontsReady = true
+        markReady()
+      })
+    const readyFallback = window.setTimeout(() => html.classList.add("is-ready"), 2500)
     engineRef.current = engine
 
     // Every [data-glass] element is rendered as a liquid-glass pane by the shader.
@@ -142,6 +175,7 @@ export default function App() {
       document.removeEventListener("click", onClick)
       window.removeEventListener("scroll", onScroll)
       window.removeEventListener("resize", measure)
+      window.clearTimeout(readyFallback)
       engineRef.current = null
       engine.dispose()
     }
@@ -180,7 +214,7 @@ export default function App() {
       </header>
 
       <main id="top" tabIndex={-1} className="outline-none">
-        <section data-scene className="relative grid h-dvh grid-rows-[1fr_auto] px-5 pt-20 pb-6 md:px-10 md:pb-10">
+        <section data-scene className="hero relative grid h-dvh grid-rows-[1fr_auto] px-5 pt-20 pb-6 md:px-10 md:pb-10">
           <NameIntro first={site.firstName} last={site.lastName} />
           {/* 特異点: "singularity", written vertically like a signature on the edge. */}
           <span aria-hidden="true" className="tategaki">

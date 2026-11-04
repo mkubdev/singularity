@@ -447,15 +447,34 @@ export class Singularity {
     }
   }
 
+  private slowWindows = 0
+  private pendingDowngrade = false
+
   private adaptQuality(dt: number) {
     // Ignore the first seconds (font loading, texture uploads, the name entrance):
     // they say nothing about the machine and used to lock in a lower resolution.
     if (performance.now() - this.startAt < 3500) return
     this.frameTimes.push(dt)
     if (this.frameTimes.length < 90) return
-    const avg = this.frameTimes.reduce((s, v) => s + v, 0) / this.frameTimes.length
+    // Median, not mean: one stall (tab switch, GC) shouldn't count as a slow machine.
+    const sorted = [...this.frameTimes].sort((a, b) => a - b)
+    const median = sorted[sorted.length >> 1]
     this.frameTimes = []
-    if (avg <= 1 / 50) return
+    // Two slow windows in a row before deciding to lower the resolution.
+    this.slowWindows = median > 1 / 50 ? this.slowWindows + 1 : 0
+    if (this.slowWindows >= 2) {
+      this.slowWindows = 0
+      this.pendingDowngrade = true
+    }
+  }
+
+  /**
+   * Apply a pending resolution change only at a calm moment: reallocating the render
+   * targets costs a hitch, which must never land in the middle of a scroll.
+   */
+  private applyPendingDowngrade(calm: boolean) {
+    if (!this.pendingDowngrade || !calm) return
+    this.pendingDowngrade = false
     // First the raymarch resolution, then the composite density (crisp UI last).
     if (this.renderScale > 0.45) {
       this.renderScale = Math.max(0.45, this.renderScale - 0.1)
@@ -482,6 +501,10 @@ export class Singularity {
   // Compile both programs off the main thread when the driver allows it
   // (KHR_parallel_shader_compile), so the first frame doesn't freeze the page.
   private started = false
+  // Frames rendered since start; the page is told the scene is ready after a few
+  // (programs linked, buffers uploaded, first mipmaps built).
+  private rendered = 0
+  onReady: (() => void) | null = null
   private snapNext = true
   private startAt = 0
   private start() {
@@ -527,6 +550,7 @@ export class Singularity {
     this.time += dt * (this.reducedMotion ? 0.2 : 1)
     this.intro = Math.min(1, this.intro + dt / 2.4)
     if (!idle) this.adaptQuality(dt)
+    this.applyPendingDowngrade(idle)
     this.stepJump(dt)
     this.stepCut(dt)
     this.stepSignal(dt)
@@ -591,6 +615,7 @@ export class Singularity {
     // CPU-side frame cost (GPU work is async) and rendered fps.
     this.statMs += performance.now() - frameStart
     this.statFrames++
+    if (++this.rendered === 3) this.onReady?.()
     const now = performance.now()
     if (now - this.statStart >= 1000) {
       this.lastStats = { fps: Math.round((this.statFrames * 1000) / (now - this.statStart)), ms: +(this.statMs / this.statFrames).toFixed(2) }
