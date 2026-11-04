@@ -8,6 +8,7 @@ import { site } from "@/content"
 import { ServiceIndex } from "@/components/ServiceIndex"
 import { NameIntro } from "@/components/NameIntro"
 import { MangaTitle } from "@/components/MangaTitle"
+import { Analytics } from "@vercel/analytics/react"
 import { PerfHud } from "@/components/PerfHud"
 import { Process, ribbonHead, ribbonPhase } from "@/components/Process"
 
@@ -323,6 +324,7 @@ export default function App() {
       </footer>
 
       {perf && <PerfHud engineRef={engineRef} />}
+      <Analytics />
       <Toaster position="bottom-center" />
     </>
   )
