@@ -3,7 +3,7 @@ dist
 .DS_Store
 .vercel
 *.local
-.claude/settings.local.json
+.claude/
 *.tsbuildinfo
 dist-ssr
 GEO-ANALYSIS.md
