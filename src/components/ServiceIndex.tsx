@@ -79,7 +79,15 @@ export function ServiceIndex({ services, onActive }: { services: Service[]; onAc
         <span key={`k${active}`} aria-hidden="true" className="kanji">
           {s.kanji}
         </span>
-        <h2 className="absolute top-24 left-5 text-sm font-medium text-muted-foreground md:top-28 md:left-10">Ce que je fais</h2>
+        {/* Section label: only on the first service, fades out once the scroll moves past it. */}
+        <h2
+          className={cn(
+            "absolute top-24 left-5 text-sm font-medium text-muted-foreground transition-opacity duration-500 md:top-28 md:left-10",
+            active > 0 && "opacity-0",
+          )}
+        >
+          Ce que je fais
+        </h2>
 
         <div className="grid items-end gap-10 md:grid-cols-[1fr_auto] md:gap-16">
           <div aria-live="polite">
